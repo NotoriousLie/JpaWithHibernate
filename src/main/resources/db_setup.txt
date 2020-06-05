@@ -1,0 +1,41 @@
+-- Tabellen erstellen --
+
+CREATE TABLE employee (
+	employee_id int(11) NOT NULL AUTO_INCREMENT,
+	name varchar(50) DEFAULT NULL,
+	salary int(10) DEFAULT NULL,
+  	PRIMARY KEY (employee_id)
+);
+
+CREATE TABLE department (
+	department_id int(11) NOT NULL AUTO_INCREMENT,
+	employee_id int(11) NOT NULL,
+	name varchar(50) DEFAULT NULL,
+	PRIMARY KEY (department_id),
+	FOREIGN KEY (employee_id) REFERENCES employee(employee_id)
+);
+
+CREATE TABLE project (
+	project_id int(11) NOT NULL AUTO_INCREMENT,
+	employee_id int(11) NOT NULL,
+	title varchar(50) DEFAULT NULL,
+	startdate DATETIME DEFAULT NULL,
+	enddate DATETIME DEFAULT NULL,
+	PRIMARY KEY (project_id),
+	FOREIGN KEY (employee_id) REFERENCES employee(employee_id)
+);
+
+CREATE TABLE sport (
+	sport_id int(11) NOT NULL AUTO_INCREMENT,
+	name varchar(50) DEFAULT NULL,
+	PRIMARY KEY (sport_id)
+);
+
+CREATE TABLE sportgroup (
+	sportgroup_id int(11) NOT NULL AUTO_INCREMENT,
+	sport_id int(11) NOT NULL,
+	name varchar(50) DEFAULT NULL,
+	groupsize int(5) DEFAULT NULL,
+	PRIMARY KEY (sportgroup_id),
+	FOREIGN KEY (sport_id) REFERENCES sport(sport_id)
+);
