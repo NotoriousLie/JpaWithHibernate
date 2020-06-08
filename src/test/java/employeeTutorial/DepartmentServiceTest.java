@@ -38,9 +38,11 @@ class DepartmentServiceTest {
 	@BeforeEach
 	void setUp() throws Exception {
 		Department department1 = new Department("Department 1");
-		department1.setId(1L);
 		Department department3 = new Department("Department 3");
 		Department departmentJava = new Department("java");
+
+		department1.setId(1L);
+
 		sut.addDepartmentToDb(department1);
 		sut.addDepartmentToDb(department3);
 		sut.addDepartmentToDb(departmentJava);
@@ -56,6 +58,7 @@ class DepartmentServiceTest {
 	@Test
 	void getDepartmentsTest() {
 		List<Department> departments = sut.getDepartments();
+
 		assertNotNull(departments);
 		assertThat(departments).extracting(Department::getName).contains("Department 1", "Department 3", "java");
 	}
@@ -63,14 +66,17 @@ class DepartmentServiceTest {
 	@Test
 	void getDepartmentByNameTest() throws ImpossibleActionException {
 		Department department = sut.getDepartmentByName("Department 1");
+
 		assertNotNull(department);
-		assertThat(department.getId()).isEqualTo(1L);
+		assertThat(department.getName()).isEqualTo("Department 1");
+		assertNotNull(department.getId());
 	}
 
 	@Test
 	void addDepartmentToDbTest() throws ImpossibleActionException {
 		Department department = new Department("Cool Department!");
 		long departmentId = sut.addDepartmentToDb(department);
+
 		assertNotNull(departmentId);
 	}
 

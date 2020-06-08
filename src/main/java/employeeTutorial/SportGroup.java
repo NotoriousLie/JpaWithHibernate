@@ -19,7 +19,7 @@ public class SportGroup {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long sportgroup_id;
+	private Long sportgroup_id;
 
 	private String name;
 	private int groupsize;
@@ -59,7 +59,7 @@ public class SportGroup {
 		this.groupsize++;
 	}
 
-	public long getId() {
+	public Long getId() {
 		return sportgroup_id;
 	}
 

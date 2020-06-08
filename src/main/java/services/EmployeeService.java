@@ -40,12 +40,22 @@ public class EmployeeService {
 		}
 	}
 
-	public Employee getEmployeeById(long id) {
+	public Employee getEmployeeById(long id) throws ImpossibleActionException {
+		Employee employee = new Employee();
 		try {
 			this.session = hibernateUtil.getSessionFactory().openSession();
 			Query query = session.createQuery("FROM Employee E WHERE E.id = :param1");
 			query.setParameter("param1", id);
-			return (Employee) query.getSingleResult();
+			List<Employee> resultList = query.getResultList();
+			if (resultList.size() > 0) {
+				employee = resultList.get(0);
+				return employee;
+			} else {
+				return employee;
+			}
+		} catch (NoResultException exc) {
+			logger.error("Employee with ID {} does not exist.", id);
+			throw new ImpossibleActionException("Cannot find employee with ID: " + id + ".");
 		} finally {
 			if (session.isOpen())
 				session.close();
@@ -53,11 +63,18 @@ public class EmployeeService {
 	}
 
 	public Employee getEmployeeByName(String name) throws ImpossibleActionException {
+		Employee employee = new Employee();
 		try {
 			this.session = hibernateUtil.getSessionFactory().openSession();
 			Query query = session.createQuery("FROM Employee E WHERE E.name = :param1");
 			query.setParameter("param1", name);
-			return (Employee) query.getSingleResult();
+			List<Employee> resultList = query.getResultList();
+			if (resultList.size() > 0) {
+				employee = resultList.get(0);
+				return employee;
+			} else {
+				return employee;
+			}
 		} catch (NoResultException exc) {
 			logger.error("Employee with name {} does not exist.", name);
 			throw new ImpossibleActionException("Cannot find employee '" + name + "'.");
@@ -79,6 +96,7 @@ public class EmployeeService {
 		}
 	}
 
+	// TODO: nullcheck von der session in finally-block
 	public int deleteEmployee(String employeeName) throws ImpossibleActionException {
 		if (!employeeExists(employeeName)) {
 			logger.warn("Trying to delete a non-existing employee.");
@@ -99,7 +117,7 @@ public class EmployeeService {
 		}
 	}
 
-	private boolean employeeExists(String employeeName) throws ImpossibleActionException {
+	public boolean employeeExists(String employeeName) throws ImpossibleActionException {
 		Employee employee = getEmployeeByName(employeeName);
 
 		if (employee != null && employee.getId() != null) {

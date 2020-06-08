@@ -34,4 +34,8 @@ public class Sport {
 	public void setId(long id) {
 		this.sport_id = id;
 	}
+
+	public Long getId() {
+		return this.sport_id;
+	}
 }

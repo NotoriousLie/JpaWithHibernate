@@ -20,10 +20,11 @@ public class DepartmentService {
 
 	private Logger logger;
 	
-	@Inject
+//	@Inject
 	private HibernateUtil hibernateUtil;
 
 	public DepartmentService() {
+		this.hibernateUtil = new HibernateUtil();
 		this.logger = LoggerFactory.getLogger(DepartmentService.class);
 	}
 

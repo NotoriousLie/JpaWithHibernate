@@ -74,4 +74,8 @@ public class Project {
 	public void setId(long id) {
 		this.project_id = id;
 	}
+
+	public Long getId() {
+		return this.project_id;
+	}
 }
