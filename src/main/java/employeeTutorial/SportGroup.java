@@ -32,7 +32,7 @@ public class SportGroup {
 
 	public SportGroup() {
 	}
-	
+
 	public SportGroup(String name, Sport sporttype) {
 		this.name = name;
 		this.sporttype = sporttype;
@@ -41,7 +41,7 @@ public class SportGroup {
 	public String getName() {
 		return name;
 	}
-	
+
 	public void setName(String name) {
 		this.name = name;
 	}
@@ -110,6 +110,16 @@ public class SportGroup {
 		this.sportgroup_id = id;
 	}
 
-	
-	
+	public void setSport(Sport sport) {
+		this.sporttype = sport;
+	}
+
+	public Sport getSport() {
+		return this.sporttype;
+	}
+
+	public void setEmployees(Set<Employee> employees) {
+		this.employees = employees;
+	}
+
 }

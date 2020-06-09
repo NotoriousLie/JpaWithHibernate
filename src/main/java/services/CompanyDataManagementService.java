@@ -1,6 +1,7 @@
 package services;
 
 import java.util.List;
+import java.util.Set;
 
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -29,12 +30,19 @@ public class CompanyDataManagementService {
 		this.logger = LoggerFactory.getLogger(CompanyDataManagementService.class);
 	}
 
-	public List<Employee> getSportmembersFromGroup(Long id) {
+	public Set<Employee> getSportmembersFromGroup(Long id) throws ImpossibleActionException {
 		try {
 			this.session = hibernateUtil.getSessionFactory().openSession();
-			Query<Employee> query = session.createQuery("FROM Employee E WHERE E.id = :param1", Employee.class);
+			Query<SportGroup> query = session.createQuery("FROM SportGroup SG WHERE SG.id = :param1", SportGroup.class);
 			query.setParameter("param1", id);
-			return query.getResultList();
+			List<SportGroup> sportGroupList = query.getResultList();
+			if (sportGroupList.size() == 0) {
+				throw new ImpossibleActionException("No Sportsgroup found with given ID (ID = " + id + ").");
+			} else {
+				SportGroup sportGroup = sportGroupList.get(0);
+				return sportGroup.getEmployees();
+			}
+
 		} finally {
 			cleanup();
 		}
@@ -60,12 +68,17 @@ public class CompanyDataManagementService {
 		}
 	}
 
-	public SportGroup getSportGroupById(long id) {
+	public SportGroup getSportGroupById(long id) throws ImpossibleActionException {
 		try {
 			this.session = hibernateUtil.getSessionFactory().openSession();
 			Query<SportGroup> query = session.createQuery("FROM SportGroup SG WHERE SG.id = :param1", SportGroup.class);
 			query.setParameter("param1", id);
-			return query.getResultList().get(0);
+			List<SportGroup> resultList = query.getResultList();
+			if (resultList.size() == 0 ) {
+				throw new ImpossibleActionException("There is no Sportgroup with ID " + id + ".");
+			} else {
+				return resultList.get(0);
+			}
 		} finally {
 			cleanup();
 		}
@@ -114,7 +127,7 @@ public class CompanyDataManagementService {
 			try {
 				this.session = hibernateUtil.getSessionFactory().openSession();
 				this.txn = session.beginTransaction();
-				Query deleteQuery = session.createQuery("DELETE SportGroup SG WHERE SG.name = :params1");
+				Query<?> deleteQuery = session.createQuery("DELETE SportGroup SG WHERE SG.name = :params1");
 				deleteQuery.setParameter("params1", name);
 				int entitiesAfftected = deleteQuery.executeUpdate();
 				txn.commit();
@@ -162,7 +175,7 @@ public class CompanyDataManagementService {
 			try {
 				this.session = hibernateUtil.getSessionFactory().openSession();
 				this.txn = session.beginTransaction();
-				Query deleteQuery = session.createQuery("DELETE Sport S WHERE S.name = :params1");
+				Query<?> deleteQuery = session.createQuery("DELETE Sport S WHERE S.name = :params1");
 				deleteQuery.setParameter("params1", name);
 				int entitiesAfftected = deleteQuery.executeUpdate();
 				txn.commit();
@@ -242,12 +255,6 @@ public class CompanyDataManagementService {
 		}
 	}
 
-	private void cleanup() {
-		if (session != null && session.isOpen()) {
-			session.close();
-		}
-	}
-
 	public int deleteProject(String title) throws ImpossibleActionException {
 		if (!projectExists(title)) {
 			logger.warn("Trying to delete a non-existing project.");
@@ -256,7 +263,7 @@ public class CompanyDataManagementService {
 			try {
 				this.session = hibernateUtil.getSessionFactory().openSession();
 				this.txn = session.beginTransaction();
-				Query deleteQuery = session.createQuery("DELETE Project P WHERE P.title = :params1");
+				Query<?> deleteQuery = session.createQuery("DELETE Project P WHERE P.title = :params1");
 				deleteQuery.setParameter("params1", title);
 				int entitiesAfftected = deleteQuery.executeUpdate();
 				txn.commit();
@@ -264,6 +271,22 @@ public class CompanyDataManagementService {
 			} finally {
 				cleanup();
 			}
+		}
+	}
+
+	public List<Sport> getSports() {
+		try {
+			this.session = hibernateUtil.getSessionFactory().openSession();
+			Query<Sport> query = session.createQuery("FROM Sport S", Sport.class);
+			return query.getResultList();
+		} finally {
+			cleanup();
+		}
+	}
+
+	private void cleanup() {
+		if (session != null && session.isOpen()) {
+			session.close();
 		}
 	}
 }

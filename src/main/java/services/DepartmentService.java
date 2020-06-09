@@ -2,7 +2,6 @@ package services;
 
 import java.util.List;
 
-import javax.inject.Inject;
 import javax.persistence.Query;
 
 import org.hibernate.Session;

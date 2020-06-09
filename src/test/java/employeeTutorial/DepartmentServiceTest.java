@@ -41,8 +41,6 @@ class DepartmentServiceTest {
 		Department department3 = new Department("Department 3");
 		Department departmentJava = new Department("java");
 
-		department1.setId(1L);
-
 		sut.addDepartmentToDb(department1);
 		sut.addDepartmentToDb(department3);
 		sut.addDepartmentToDb(departmentJava);

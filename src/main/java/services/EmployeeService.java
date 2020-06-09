@@ -23,11 +23,12 @@ public class EmployeeService {
 
 	private Logger logger;
 
-	@Inject
+//	@Inject
 	private HibernateUtil hibernateUtil;
 
 	public EmployeeService() {
 		this.logger = LoggerFactory.getLogger(EmployeeService.class);
+		this.hibernateUtil = new HibernateUtil();
 	}
 
 	public List<Employee> getEmployees() {
@@ -41,21 +42,17 @@ public class EmployeeService {
 	}
 
 	public Employee getEmployeeById(long id) throws ImpossibleActionException {
-		Employee employee = new Employee();
 		try {
 			this.session = hibernateUtil.getSessionFactory().openSession();
 			Query query = session.createQuery("FROM Employee E WHERE E.id = :param1");
 			query.setParameter("param1", id);
 			List<Employee> resultList = query.getResultList();
-			if (resultList.size() > 0) {
-				employee = resultList.get(0);
-				return employee;
+			if (resultList.size() == 0) {
+				logger.error("Employee with ID {} does not exist.", id);
+				throw new ImpossibleActionException("Cannot find employee with ID: " + id + ".");
 			} else {
-				return employee;
+				return resultList.get(0);
 			}
-		} catch (NoResultException exc) {
-			logger.error("Employee with ID {} does not exist.", id);
-			throw new ImpossibleActionException("Cannot find employee with ID: " + id + ".");
 		} finally {
 			if (session.isOpen())
 				session.close();

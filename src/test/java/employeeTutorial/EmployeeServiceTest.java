@@ -1,8 +1,7 @@
 package employeeTutorial;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.HashSet;
 import java.util.List;
@@ -49,39 +48,6 @@ class EmployeeServiceTest {
 
 	@BeforeEach
 	void setUp() throws Exception {
-		// aufräumen
-//		if (sut.employeeExists(TESTUSER_SIR_DOUCHE_NAME)) {
-//			sut.deleteEmployee(TESTUSER_SIR_DOUCHE_NAME);
-//		}
-//
-//		if (sut.employeeExists("Elrond")) {
-//			sut.deleteEmployee("Elrond");
-//		}
-//
-//		if (sut.employeeExists("Jakab Gipsz")) {
-//			sut.deleteEmployee("Jakab Gipsz");
-//		}
-//
-//		if (sut.employeeExists("Ann Hatheway")) {
-//			sut.deleteEmployee("Ann Hatheway");
-//		}
-//
-//		if (depService.departmentExists("Department 1")) {
-//			depService.deleteDepartmentFromDb("Department 1");
-//		}
-//
-//		if (depService.departmentExists("Department 2")) {
-//			depService.deleteDepartmentFromDb("Department 2");
-//		}
-//
-//		if (service.sportGroupExists("FC Koelle")) {
-//			service.deleteSportGroup("FC Koelle");
-//		}
-//
-//		if (service.sportExists("Football")) {
-//			service.deleteSport("Football");
-//		}
-
 		// leerer Stand, jetzt neu befüllen
 		Set<SportGroup> sportGroups = new HashSet<SportGroup>();
 		Sport sport = new Sport("Football");
@@ -194,6 +160,13 @@ class EmployeeServiceTest {
 	void deleteNonExistentEmployeeTest() throws Exception {
 		assertThrows(ImpossibleActionException.class, () -> {
 			sut.deleteEmployee("Cool Employee");
+		});
+	}
+	
+	@Test
+	void getEmployeeByIdTest() throws Exception {
+		assertThrows(ImpossibleActionException.class,() -> {
+			sut.getEmployeeById(0L);
 		});
 	}
 
