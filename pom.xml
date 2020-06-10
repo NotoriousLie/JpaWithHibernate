@@ -48,6 +48,13 @@
 			<scope>provided</scope>
 		</dependency>
 
+		<!-- Hibernate In-Memory DB -->
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<version>1.4.200</version>
+		</dependency>
+
 		<!-- TEST -->
 		<!-- JUnit 5, unit test -->
 		<dependency>

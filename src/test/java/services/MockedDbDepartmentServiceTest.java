@@ -1,9 +1,12 @@
-package employeeTutorial;
+package services;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,18 +18,23 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import employeeTutorial.Department;
+import employeeTutorial.HibernateUtil;
+import employeeTutorial.ImpossibleActionException;
 import services.DepartmentService;
 
 @ExtendWith(MockitoExtension.class)
 class MockedDbDepartmentServiceTest {
 
-    @InjectMocks 
+	@InjectMocks
 	DepartmentService service = new DepartmentService();
-	
+
 	@Mock
 	private HibernateUtil hut;
 
@@ -42,26 +50,70 @@ class MockedDbDepartmentServiceTest {
 	@Mock
 	private Transaction tx;
 	
+	@Mock
+	private Serializable ser;
+
 	@BeforeAll
 	static void setUpBeforeClass() throws Exception {
 	}
 
 	@Test
-	void testMockitoStuff() throws ImpossibleActionException {
+	void testAddExistingDepartmentToDbWithMockito() throws ImpossibleActionException {
 		when(hut.getSessionFactory()).thenReturn(sf);
 		when(sf.openSession()).thenReturn(mockSession);
 		when(mockSession.createQuery(anyString(), any(Class.class))).thenReturn(mockDepartmentQuery);
-		when(mockSession.beginTransaction()).thenReturn(tx);
-		List<Department> resultListEmpty = new ArrayList<>();
 		List<Department> resultList = new ArrayList<>();
 		Department dep1 = new Department("gnarr");
 		dep1.setId(123L);
 		resultList.add(dep1);
-		when(mockDepartmentQuery.getResultList()).thenReturn(resultListEmpty).thenReturn(resultList);
-		Department department = new Department("some department");
+		when(mockDepartmentQuery.getResultList()).thenReturn(resultList);
+		
 		Assertions.assertThrows(ImpossibleActionException.class, () -> {
-			service.addDepartmentToDb(department);
+			service.addDepartmentToDb(dep1);
 		});
+
+	}
+
+	@Test
+	void testGetDepartmentsWithMockito() throws Exception {
+		when(hut.getSessionFactory()).thenReturn(sf);
+		when(sf.openSession()).thenReturn(mockSession);
+		when(mockSession.createQuery(anyString(), any(Class.class))).thenReturn(mockDepartmentQuery);
+		List<Department> resultList = new ArrayList<Department>();
+		Department dep1 = new Department("gnarr");
+		dep1.setId(123L);
+		resultList.add(dep1);
+		when(mockDepartmentQuery.getResultList()).thenReturn(resultList);
+		assertThat(service.getDepartments()).isEqualTo(resultList);
+	}
+	
+	@Test
+	void testAddNewDepartmentWithMockito() throws Exception {
+		when(hut.getSessionFactory()).thenReturn(sf);
+		when(sf.openSession()).thenReturn(mockSession);
+		when(mockSession.beginTransaction()).thenReturn(tx);
+		when(mockSession.createQuery(anyString(), any(Class.class))).thenReturn(mockDepartmentQuery);
+
+		List<Department> resultList = new ArrayList<>();
+		List<Department> emptyList = new ArrayList<>();
+		Department dep1 = new Department();
+		dep1.setId(5L);
+		resultList.add(dep1);
+		
+		when(mockDepartmentQuery.getResultList()).thenReturn(emptyList).thenReturn(resultList);
+		
+		assertThat(service.addDepartmentToDb(dep1)).isEqualTo(5L);
+		
+		ArgumentCaptor<Department> capturedDepartment = ArgumentCaptor.forClass(Department.class);
+		verify(mockSession, times(1)).save(capturedDepartment.capture());
+		assertEquals(dep1, capturedDepartment.getValue());
+	}
+	
+	@Test
+	void testCleanup() throws Exception {
+		when(mockSession.isOpen()).thenReturn(true);
+		service.cleanup();
+		verify(mockSession, times(1)).close();
 	}
 
 }
