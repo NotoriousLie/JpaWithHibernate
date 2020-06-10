@@ -18,7 +18,7 @@ public class DepartmentService {
 	private Transaction txn;
 
 	private Logger logger;
-	
+
 //	@Inject
 	private HibernateUtil hibernateUtil;
 
@@ -33,7 +33,7 @@ public class DepartmentService {
 			List<Department> departments = session.createQuery("FROM Department D", Department.class).getResultList();
 			return departments;
 		} finally {
-			session.close();
+			cleanup();
 		}
 
 	}
@@ -60,8 +60,7 @@ public class DepartmentService {
 				return getDepartmentByName(department.getName()).getId();
 
 			} finally {
-				if (session.isOpen())
-					session.close();
+				cleanup();
 			}
 		}
 	}
@@ -103,7 +102,7 @@ public class DepartmentService {
 				txn.commit();
 				return entitiesAfftected;
 			} finally {
-				session.close();
+				cleanup();
 			}
 		}
 	}
@@ -120,6 +119,12 @@ public class DepartmentService {
 			}
 			return (Department) department.get(0);
 		} finally {
+			cleanup();
+		}
+	}
+
+	void cleanup() {
+		if (session != null && session.isOpen()) {
 			session.close();
 		}
 	}
