@@ -89,7 +89,9 @@ public class DepartmentService {
 			logger.warn("Trying to delete a non-existing department {}.", departmentName);
 			throw new ImpossibleActionException("There is no department with name '" + departmentName + "' !");
 		} else {
-			if (getDepartmentByName(departmentName).getEmployees().size() > 0) {
+			if (getDepartmentByName(departmentName) != null
+					&& getDepartmentByName(departmentName).getEmployees() != null
+					&& getDepartmentByName(departmentName).getEmployees().size() > 0) {
 				logger.warn("Trying to delete a department with employees inside.");
 				throw new ImpossibleActionException("Cannot delete department with employees still assigned to it.");
 			}
