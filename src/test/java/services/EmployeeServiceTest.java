@@ -1,4 +1,4 @@
-package employeeTutorial;
+package services;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
@@ -17,6 +17,12 @@ import org.mockito.InjectMocks;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import employeeTutorial.Department;
+import employeeTutorial.Employee;
+import employeeTutorial.HibernateUtil;
+import employeeTutorial.ImpossibleActionException;
+import employeeTutorial.Sport;
+import employeeTutorial.SportGroup;
 import services.CompanyDataManagementService;
 import services.DepartmentService;
 import services.EmployeeService;
@@ -27,10 +33,10 @@ class EmployeeServiceTest {
 	@InjectMocks // subject under test
 	EmployeeService sut = new EmployeeService();
 
-//	@InjectMocks
+	@InjectMocks
 	CompanyDataManagementService service = new CompanyDataManagementService();
 
-//	@InjectMocks
+	@InjectMocks
 	DepartmentService depService = new DepartmentService();
 
 	@Spy

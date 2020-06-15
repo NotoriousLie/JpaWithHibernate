@@ -1,4 +1,4 @@
-package employeeTutorial;
+package services;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -16,6 +16,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import employeeTutorial.Department;
+import employeeTutorial.HibernateUtil;
+import employeeTutorial.ImpossibleActionException;
 import services.DepartmentService;
 
 @ExtendWith(MockitoExtension.class)
@@ -80,6 +83,8 @@ class DepartmentServiceTest {
 
 	@Test
 	void deleteDepartmentTest() throws ImpossibleActionException {
+		Department departmentCool = new Department("Cool Department!");
+		sut.addDepartmentToDb(departmentCool);
 		assertThat(sut.deleteDepartmentFromDb("Cool Department!")).isEqualTo(1);
 		assertThrows(ImpossibleActionException.class, () -> {
 			sut.deleteDepartmentFromDb("Cool Department!");

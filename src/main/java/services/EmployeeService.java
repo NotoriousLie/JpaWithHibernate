@@ -23,12 +23,11 @@ public class EmployeeService {
 
 	private Logger logger;
 
-//	@Inject
+	@Inject
 	private HibernateUtil hibernateUtil;
 
 	public EmployeeService() {
 		this.logger = LoggerFactory.getLogger(EmployeeService.class);
-		this.hibernateUtil = new HibernateUtil();
 	}
 
 	public List<Employee> getEmployees() {
@@ -36,8 +35,7 @@ public class EmployeeService {
 			this.session = hibernateUtil.getSessionFactory().openSession();
 			return session.createQuery("FROM Employee E", Employee.class).getResultList();
 		} finally {
-			if (session.isOpen())
-				session.close();
+			cleanup();
 		}
 	}
 
@@ -54,8 +52,7 @@ public class EmployeeService {
 				return resultList.get(0);
 			}
 		} finally {
-			if (session.isOpen())
-				session.close();
+			cleanup();
 		}
 	}
 
@@ -76,8 +73,7 @@ public class EmployeeService {
 			logger.error("Employee with name {} does not exist.", name);
 			throw new ImpossibleActionException("Cannot find employee '" + name + "'.");
 		} finally {
-			if (session.isOpen())
-				session.close();
+			cleanup();
 		}
 	}
 
@@ -88,12 +84,10 @@ public class EmployeeService {
 			session.save(employee);
 			txn.commit();
 		} finally {
-			if (session.isOpen())
-				session.close();
+			cleanup();
 		}
 	}
 
-	// TODO: nullcheck von der session in finally-block
 	public int deleteEmployee(String employeeName) throws ImpossibleActionException {
 		if (!employeeExists(employeeName)) {
 			logger.warn("Trying to delete a non-existing employee.");
@@ -108,8 +102,7 @@ public class EmployeeService {
 				txn.commit();
 				return entitiesAfftected;
 			} finally {
-				if (session.isOpen())
-					session.close();
+				cleanup();
 			}
 		}
 	}
@@ -126,6 +119,12 @@ public class EmployeeService {
 
 	public Set<SportGroup> getSportgroupsFromMemberName(String name) throws ImpossibleActionException {
 		return getEmployeeByName(name).getSportGroups();
+	}
+
+	void cleanup() {
+		if (session != null && session.isOpen()) {
+			session.close();
+		}
 	}
 
 }

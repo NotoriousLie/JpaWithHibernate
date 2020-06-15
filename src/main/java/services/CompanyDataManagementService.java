@@ -3,6 +3,8 @@ package services;
 import java.util.List;
 import java.util.Set;
 
+import javax.inject.Inject;
+
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
@@ -22,11 +24,10 @@ public class CompanyDataManagementService {
 	Transaction txn;
 	Logger logger;
 
-//	@Inject
+	@Inject
 	private HibernateUtil hibernateUtil;
 
 	public CompanyDataManagementService() {
-		this.hibernateUtil = new HibernateUtil();
 		this.logger = LoggerFactory.getLogger(CompanyDataManagementService.class);
 	}
 
@@ -61,8 +62,14 @@ public class CompanyDataManagementService {
 	public List<Project> getProjects() {
 		try {
 			this.session = hibernateUtil.getSessionFactory().openSession();
-			Query<Project> query = session.createQuery("FROM Project P", Project.class);
-			return query.getResultList();
+			Query query = session.createQuery("FROM Project P", Project.class);
+			List<Project> resultList = query.getResultList();
+
+			if (resultList.size() == 0) {
+				return null;
+			} else {
+				return resultList;
+			}
 		} finally {
 			cleanup();
 		}
@@ -74,7 +81,7 @@ public class CompanyDataManagementService {
 			Query<SportGroup> query = session.createQuery("FROM SportGroup SG WHERE SG.id = :param1", SportGroup.class);
 			query.setParameter("param1", id);
 			List<SportGroup> resultList = query.getResultList();
-			if (resultList.size() == 0 ) {
+			if (resultList.size() == 0) {
 				throw new ImpossibleActionException("There is no Sportgroup with ID " + id + ".");
 			} else {
 				return resultList.get(0);
@@ -214,8 +221,8 @@ public class CompanyDataManagementService {
 	public Long addProjectToDb(Project project) throws ImpossibleActionException {
 		String title = project.getTitle();
 		if (projectExists(title)) {
-			logger.error("Trying to add a sport {} which name was already taken.", title);
-			throw new ImpossibleActionException("There already exists a sport with the given name!");
+			logger.error("Trying to add a project {} which name was already taken.", title);
+			throw new ImpossibleActionException("There already exists a project with the given name!");
 		} else {
 			try {
 				this.session = hibernateUtil.getSessionFactory().openSession();

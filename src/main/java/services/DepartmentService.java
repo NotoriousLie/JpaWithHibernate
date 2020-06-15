@@ -2,6 +2,7 @@ package services;
 
 import java.util.List;
 
+import javax.inject.Inject;
 import javax.persistence.Query;
 
 import org.hibernate.Session;
@@ -19,11 +20,10 @@ public class DepartmentService {
 
 	private Logger logger;
 
-//	@Inject
+	@Inject
 	private HibernateUtil hibernateUtil;
 
 	public DepartmentService() {
-		this.hibernateUtil = new HibernateUtil();
 		this.logger = LoggerFactory.getLogger(DepartmentService.class);
 	}
 

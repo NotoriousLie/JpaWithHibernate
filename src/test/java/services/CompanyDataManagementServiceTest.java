@@ -1,4 +1,4 @@
-package employeeTutorial;
+package services;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
@@ -17,24 +17,40 @@ import org.mockito.InjectMocks;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import services.CompanyDataManagementService;
-import services.DepartmentService;
-import services.EmployeeService;
+import employeeTutorial.Department;
+import employeeTutorial.Employee;
+import employeeTutorial.HibernateUtil;
+import employeeTutorial.ImpossibleActionException;
+import employeeTutorial.Project;
+import employeeTutorial.Sport;
+import employeeTutorial.SportGroup;
 
 @ExtendWith(MockitoExtension.class)
 class CompanyDataManagementServiceTest {
 
 	@InjectMocks // subject under test
-	static CompanyDataManagementService sut = new CompanyDataManagementService();
+	CompanyDataManagementService sut = new CompanyDataManagementService();
 
-	static EmployeeService empService = new EmployeeService();
-	static DepartmentService depService = new DepartmentService();
+	@InjectMocks
+	EmployeeService empService = new EmployeeService();
+
+	@InjectMocks
+	DepartmentService depService = new DepartmentService();
 
 	@Spy
 	private HibernateUtil hut = new HibernateUtil();
 
 	@BeforeAll
 	static void setUpBeforeClass() throws Exception {
+
+	}
+
+	@AfterAll
+	static void tearDownAfterClass() throws Exception {
+	}
+
+	@BeforeEach
+	void setUp() throws Exception {
 		Project projectSweet = new Project();
 		Project projectDull = new Project();
 		Project projectAwesome = new Project();
@@ -77,11 +93,10 @@ class CompanyDataManagementServiceTest {
 		employeeAnke.setSportGroups(sportGroups);
 		empService.addEmployeeToDb(employeeDieter);
 		empService.addEmployeeToDb(employeeAnke);
-
 	}
 
-	@AfterAll
-	static void tearDownAfterClass() throws Exception {
+	@AfterEach
+	void tearDown() throws Exception {
 
 		sut.deleteProject("Sweet project");
 		sut.deleteProject("Dull project");
@@ -98,14 +113,6 @@ class CompanyDataManagementServiceTest {
 
 		depService.deleteDepartmentFromDb("Department 1");
 
-	}
-
-	@BeforeEach
-	void setUp() throws Exception {
-	}
-
-	@AfterEach
-	void tearDown() throws Exception {
 	}
 
 	@Test

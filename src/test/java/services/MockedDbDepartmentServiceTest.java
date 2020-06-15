@@ -135,6 +135,7 @@ class MockedDbDepartmentServiceTest {
 		when(mockDepartmentQuery.getResultList()).thenReturn(resultList).thenReturn(resultList);
 		when(mockDepartmentQuery.setParameter(anyString(), any())).thenReturn(mockDepartmentQuery);
 		when(mockDepartmentQuery.executeUpdate()).thenReturn(1);
+		
 		assertThat(service.deleteDepartmentFromDb("fubar")).isEqualTo(1);
 		verify(mockSession, times(4)).createQuery(anyString(), any(Class.class));
 	}
