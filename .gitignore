@@ -1,0 +1,6 @@
+/.settings
+/target
+/.classpath
+/.project
+/src/main/resources/import.sql
+/test.mv.db
