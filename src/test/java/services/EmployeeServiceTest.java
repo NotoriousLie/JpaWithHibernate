@@ -1,7 +1,8 @@
 package services;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.HashSet;
 import java.util.List;
@@ -23,9 +24,6 @@ import employeeTutorial.HibernateUtil;
 import employeeTutorial.ImpossibleActionException;
 import employeeTutorial.Sport;
 import employeeTutorial.SportGroup;
-import services.CompanyDataManagementService;
-import services.DepartmentService;
-import services.EmployeeService;
 
 @ExtendWith(MockitoExtension.class)
 class EmployeeServiceTest {
@@ -54,7 +52,7 @@ class EmployeeServiceTest {
 
 	@BeforeEach
 	void setUp() throws Exception {
-		// leerer Stand, jetzt neu befüllen
+		// leerer Stand, jetzt neu befï¿½llen
 		Set<SportGroup> sportGroups = new HashSet<SportGroup>();
 		Sport sport = new Sport("Football");
 		service.addSportToDb(sport);
@@ -94,7 +92,7 @@ class EmployeeServiceTest {
 
 	@AfterEach
 	void tearDown() throws Exception {
-		// aufräumen
+		// aufrï¿½umen
 		if (sut.employeeExists(TESTUSER_SIR_DOUCHE_NAME)) {
 			sut.deleteEmployee(TESTUSER_SIR_DOUCHE_NAME);
 		}
@@ -135,7 +133,7 @@ class EmployeeServiceTest {
 		assertThat(employees).extracting(Employee::getName).contains(TESTUSER_SIR_DOUCHE_NAME, "Elrond");
 	}
 
-	// TODO: momentan nicht möglich, da id nicht bekannt ist. Fixen? wie?
+	// TODO: momentan nicht mï¿½glich, da id nicht bekannt ist. Fixen? wie?
 //	@Test
 //	void getEmployeeByIdTest() throws ImpossibleActionException {
 //		Employee employee = sut.getEmployeeById(48L);

@@ -19,7 +19,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import employeeTutorial.Department;
 import employeeTutorial.HibernateUtil;
 import employeeTutorial.ImpossibleActionException;
-import services.DepartmentService;
 
 @ExtendWith(MockitoExtension.class)
 class DepartmentServiceTest {

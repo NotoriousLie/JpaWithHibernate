@@ -16,7 +16,6 @@ public class Sport {
 	private String name;
 	
 	public Sport() {
-		// TODO Auto-generated constructor stub
 	}
 	
 	public Sport(String name) {
