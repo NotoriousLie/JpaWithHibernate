@@ -1,4 +1,4 @@
-package services;
+package service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
@@ -197,7 +197,7 @@ class CompanyDataManagementServiceTest {
 
 	}
 
-	// TODO: momentan nicht möglich, etwas via ID zu finden. Fixen? Wie?
+	// TODO: momentan nicht mï¿½glich, etwas via ID zu finden. Fixen? Wie?
 //	@Test
 //	void getSportGroupByIdTest() {
 //		SportGroup sportgroup = sut.getSportGroupById(3);
@@ -205,7 +205,7 @@ class CompanyDataManagementServiceTest {
 //		assertThat(sportgroup.getName()).isEqualTo("Whole in 1");
 //	}
 
-	// TODO: momentan nicht möglich, etwas via ID zu finden. Fixen? Wie?
+	// TODO: momentan nicht mï¿½glich, etwas via ID zu finden. Fixen? Wie?
 //	@Test
 //	void getAllSportmembersTest() {
 //		List<Employee> employees = sut.getSportmembersFromGroup(44L);
@@ -214,25 +214,25 @@ class CompanyDataManagementServiceTest {
 //	}
 
 	/**
-	 * Zu 1: • Es muss die Id des Mitarbeiters herausgefunden werden, der die
-	 * Anfrage stellt. Dies wird via Namen des anfragenden Mitarbeiters erledigt. •
-	 * Es muss eine Id/Name der Sportgruppe übergeben werden, dessen Mitglieder der
-	 * anfragende Mitarbeiter in Erfahrung bringen möchte. • Es muss eine Liste der
+	 * Zu 1: ï¿½ Es muss die Id des Mitarbeiters herausgefunden werden, der die
+	 * Anfrage stellt. Dies wird via Namen des anfragenden Mitarbeiters erledigt. ï¿½
+	 * Es muss eine Id/Name der Sportgruppe ï¿½bergeben werden, dessen Mitglieder der
+	 * anfragende Mitarbeiter in Erfahrung bringen mï¿½chte. ï¿½ Es muss eine Liste der
 	 * Mitarbeiter mit Id der angefragten Sportgruppe ohne den anfragenden
 	 * Mitarbeiter ausgegeben werden.
 	 * 
-	 * Zu 2: • Es muss eine Ausgabe aller Sportgruppen erledigt werden. (Nach
+	 * Zu 2: ï¿½ Es muss eine Ausgabe aller Sportgruppen erledigt werden. (Nach
 	 * welchen Kriterien soll diese sortiert werden?)
 	 * 
-	 * Zu 3: • Es muss eine Ausgabe aller Abteilungen erledigt werden. (Nach welchen
+	 * Zu 3: ï¿½ Es muss eine Ausgabe aller Abteilungen erledigt werden. (Nach welchen
 	 * Kriterien soll diese sortiert werden?)
 	 * 
-	 * Zu 4: • Es muss eine Ausgabe aller Projekte erledigt werden. (Nach welchen
+	 * Zu 4: ï¿½ Es muss eine Ausgabe aller Projekte erledigt werden. (Nach welchen
 	 * Kriterien soll diese sortiert werden?)
 	 * 
-	 * Zu 5: • Es muss eine Id oder ein Name der Sportgruppe übergeben werden. • Mit
-	 * dieser müssen Mitarbeiter gefiltert werden, sodass nur Mitarbeiter mit der
-	 * übergeben Id ausgegeben werden.
+	 * Zu 5: ï¿½ Es muss eine Id oder ein Name der Sportgruppe ï¿½bergeben werden. ï¿½ Mit
+	 * dieser mï¿½ssen Mitarbeiter gefiltert werden, sodass nur Mitarbeiter mit der
+	 * ï¿½bergeben Id ausgegeben werden.
 	 */
 
 }

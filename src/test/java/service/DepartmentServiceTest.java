@@ -1,4 +1,4 @@
-package services;
+package service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -73,17 +73,12 @@ class DepartmentServiceTest {
 	}
 
 	@Test
-	void addDepartmentToDbTest() throws ImpossibleActionException {
+	void addAndDeleteDepartmentTest() throws ImpossibleActionException {
 		Department department = new Department("Cool Department!");
 		long departmentId = sut.addDepartmentToDb(department);
 
 		assertNotNull(departmentId);
-	}
 
-	@Test
-	void deleteDepartmentTest() throws ImpossibleActionException {
-		Department departmentCool = new Department("Cool Department!");
-		sut.addDepartmentToDb(departmentCool);
 		assertThat(sut.deleteDepartmentFromDb("Cool Department!")).isEqualTo(1);
 		assertThrows(ImpossibleActionException.class, () -> {
 			sut.deleteDepartmentFromDb("Cool Department!");
