@@ -10,6 +10,7 @@
 		<param-name>javax.faces.INTERPRET_EMPTY_STRING_SUBMITTED_VALUES_AS_NULL</param-name>
 		<param-value>true</param-value>
 	</context-param>
+
 	<servlet>
 		<servlet-name>facesServlet</servlet-name>
 		<servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
@@ -19,4 +20,14 @@
 		<servlet-name>facesServlet</servlet-name>
 		<url-pattern>*.xhtml</url-pattern>
 	</servlet-mapping>
+
+	<welcome-file-list>
+		<welcome-file>test.xhtml</welcome-file>
+	</welcome-file-list>
+
+	<data-source>
+		<name>java:global/DataSourceName</name>
+		<class-name>org.h2.jdbcx.JdbcDataSource</class-name>
+		<url>jdbc:h2:mem:test;DB_CLOSE_DELAY=-1</url>
+	</data-source>
 </web-app>
