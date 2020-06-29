@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<title>Stockholm Software Inc.</title>
+	<h:outputStylesheet name="primeicons/primeicons.css"
+		library="primefaces" />
+	<style type="text/css">
+.ui-g div {
+	background-color: #ffffff;
+	text-align: left;
+	border: 1px solid #ffffff;
+}
+</style>
+</h:head>
+
+
+<h:body>
+
+	<!--  -->
+	<div class="ui-g">
+
+		<div class="ui-g-12 ui-md-2">
+			<!-- left side window -->
+			<!-- Menu -->
+			<h:form>
+				<p:growl id="messages" showDetail="false" />
+
+				<p:menu toggleable="true">
+					<p:submenu label="Start" />
+					<p:submenu label="Employees" >
+						<p:menuitem value=" Add Employee"  url="http://localhost:8080/test.xhtml"
+							update="messages"/>
+						<p:menuitem value=" Delete Employee" action="#{menuView.delete}"
+							update="messages" ajax="false" />
+						<p:menuitem value=" All Employees" action="#{menuView.update}"
+							update="messages" />
+					</p:submenu>
+					<p:submenu label="Departments">
+						<p:menuitem value="Save" action="#{menuView.save}"
+							update="messages" icon="pi pi-save" />
+						<p:menuitem value="Update" action="#{menuView.update}"
+							update="messages" icon="pi pi-refresh" />
+						<p:menuitem value="Delete" action="#{menuView.delete}"
+							update="messages" ajax="false" icon="pi pi-times" />
+					</p:submenu>
+					<p:submenu label="Projects">
+						<p:menuitem value="Save" action="#{menuView.save}"
+							update="messages" icon="pi pi-save" />
+						<p:menuitem value="Update" action="#{menuView.update}"
+							update="messages" icon="pi pi-refresh" />
+						<p:menuitem value="Delete" action="#{menuView.delete}"
+							update="messages" ajax="false" icon="pi pi-times" />
+					</p:submenu>
+					<p:submenu label="Sport Groups">
+						<p:menuitem value="Save" action="#{menuView.save}"
+							update="messages" icon="pi pi-save" />
+						<p:menuitem value="Update" action="#{menuView.update}"
+							update="messages" icon="pi pi-refresh" />
+						<p:menuitem value="Delete" action="#{menuView.delete}"
+							update="messages" ajax="false" icon="pi pi-times" />
+					</p:submenu>
+					<p:submenu label="Sports">
+						<p:menuitem value="Save" action="#{menuView.save}"
+							update="messages" icon="pi pi-save" />
+						<p:menuitem value="Update" action="#{menuView.update}"
+							update="messages" icon="pi pi-refresh" />
+						<p:menuitem value="Delete" action="#{menuView.delete}"
+							update="messages" ajax="false" icon="pi pi-times" />
+					</p:submenu>
+
+				</p:menu>
+			</h:form>
+		</div>
+
+		<div class="ui-g-12 ui-md-10">
+			<!-- right side window -->
+			<div class="ui-g-12 ui-md-4" style="margin-right: auto">asd</div>
+		</div>
+	</div>
+
+
+</h:body>
+
+
+</html>
