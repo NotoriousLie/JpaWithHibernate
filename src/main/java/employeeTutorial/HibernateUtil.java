@@ -1,8 +1,12 @@
 package employeeTutorial;
 
+import javax.ejb.Stateless;
+import javax.enterprise.inject.Model;
+
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
   
+@Model
 public class HibernateUtil implements AutoCloseable {
   
     private static SessionFactory sessionFactory;

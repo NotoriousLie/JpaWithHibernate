@@ -3,6 +3,7 @@ package service;
 import java.util.List;
 import java.util.Set;
 
+import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
@@ -17,6 +18,7 @@ import employeeTutorial.HibernateUtil;
 import employeeTutorial.ImpossibleActionException;
 import employeeTutorial.SportGroup;
 
+@Stateless
 public class EmployeeService {
 	private Session session;
 	private Transaction txn;

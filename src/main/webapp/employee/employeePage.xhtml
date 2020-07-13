@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<title>Stockholm Software Inc.</title>
+	<h:outputStylesheet name="primeicons/primeicons.css"
+		library="primefaces" />
+	<style type="text/css">
+.ui-g div {
+	background-color: #ededed;
+	text-align: left;
+	border: 1px solid #fafafa;
+}
+</style>
+</h:head>
+<body>
+
+	<!-- whole window -->
+	<div class="ui-g">
+
+		<!-- left side window -->
+		<div class="ui-g-12 ui-md-2">
+			<!-- Menu -->
+			<h:form>
+				<p:growl id="messages" showDetail="false" />
+
+				<p:menu toggleable="true">
+					<p:submenu label="Start" />
+					<p:submenu label="Employees">
+						<p:menuitem value=" Add Employee"
+							url="http://localhost:8080/add_employee.xhtml" update="messages" />
+						<p:menuitem value=" Delete Employee" action="#{menuView.delete}"
+							update="messages" ajax="false" />
+						<p:menuitem value=" All Employees" action="#{menuView.update}"
+							update="messages" />
+					</p:submenu>
+					<p:submenu label="Departments">
+						<p:menuitem value="Save" action="#{menuView.save}"
+							update="messages" icon="pi pi-save" />
+						<p:menuitem value="Update" action="#{menuView.update}"
+							update="messages" icon="pi pi-refresh" />
+						<p:menuitem value="Delete" action="#{menuView.delete}"
+							update="messages" ajax="false" icon="pi pi-times" />
+					</p:submenu>
+					<p:submenu label="Projects">
+						<p:menuitem value="Save" action="#{menuView.save}"
+							update="messages" icon="pi pi-save" />
+						<p:menuitem value="Update" action="#{menuView.update}"
+							update="messages" icon="pi pi-refresh" />
+						<p:menuitem value="Delete" action="#{menuView.delete}"
+							update="messages" ajax="false" icon="pi pi-times" />
+					</p:submenu>
+					<p:submenu label="Sport Groups">
+						<p:menuitem value="Save" action="#{menuView.save}"
+							update="messages" icon="pi pi-save" />
+						<p:menuitem value="Update" action="#{menuView.update}"
+							update="messages" icon="pi pi-refresh" />
+						<p:menuitem value="Delete" action="#{menuView.delete}"
+							update="messages" ajax="false" icon="pi pi-times" />
+					</p:submenu>
+					<p:submenu label="Sports">
+						<p:menuitem value="Save" action="#{menuView.save}"
+							update="messages" icon="pi pi-save" />
+						<p:menuitem value="Update" action="#{menuView.update}"
+							update="messages" icon="pi pi-refresh" />
+						<p:menuitem value="Delete" action="#{menuView.delete}"
+							update="messages" ajax="false" icon="pi pi-times" />
+					</p:submenu>
+
+				</p:menu>
+			</h:form>
+		</div>
+
+		<!-- right side window -->
+		<div class="ui-g-12 ui-md-10 ui-g-nopad">
+			<div class="ui-g-12">
+				<h2>Employees</h2>
+			</div>
+			<div class="ui-g-12">
+
+				<h:form id="form">
+					<p:growl id="msgs" showDetail="true" />
+
+					<p:dataTable id="overview" var="employeeElement"
+						value="#{employeeView.employees}" sortMode="multiple"
+						selectionMode="single" selection="#{employeeView.employee}"
+						rowKey="#{employeeElement.employee_id}" editable="true">
+						<!-- 
+						<p:ajax event="rowEdit" listener="#{AddRowView.onRowEdit}"
+							update=":form:msgs" />
+						<p:ajax event="rowEditCancel" listener="#{AddRowView.onRowCancel}"
+							update=":form:msgs" />
+-->
+
+						<p:column headerText="ID" sortBy="#{employeeElement.id}">#{employeeElement.id}</p:column>
+						<p:column headerText="Name" sortBy="#{employeeElement.name}">#{employeeElement.name}</p:column>
+						<p:column headerText="Salary" sortBy="#{employeeElement.salary}">#{employeeElement.salary}</p:column>
+						<p:column headerText="Projects"
+							sortBy="#{employeeElement.projects}">
+							<p:repeat value="#{employeeElement.projects}" var="project">
+							#{project.title}
+						</p:repeat>
+						</p:column>
+						<p:column headerText="Sportgroups"
+							sortBy="#{employeeElement.sportGroups}">
+							<p:dataList value="#{employeeElement.sportGroups}"
+								var="sportGroups">
+							#{sportGroups.name}
+							</p:dataList>
+						</p:column>
+						<p:column headerText="Department"
+							sortBy="#{employeeElement.department.name}">#{employeeElement.department.name}
+						</p:column>
+						<f:facet name="footer">
+							<p:commandButton process="overview" update=":form:employeeDetail"
+								icon="pi pi-search" value="View"
+								oncomplete="PF('employeeDialog').show()" />
+						</f:facet>
+
+
+					</p:dataTable>
+
+
+
+					<p:dialog header="Employee Info" widgetVar="employeeDialog"
+						modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+						<p:outputPanel id="employeeDetail" style="text-align:center;">
+							<p:panelGrid columns="2"
+								rendered="#{not empty employeeView.employee}"
+								columnClasses="label,value">
+
+								<h:outputText value="Id:" />
+								<h:outputText value="#{employeeView.employee.employee_id}" />
+
+								<h:outputText value="Name:" />
+								<h:outputText value="#{employeeView.employee.name}" />
+
+								<h:outputText value="Salary:" />
+								<h:outputText value="#{employeeView.employee.salary}" />
+
+							</p:panelGrid>
+						</p:outputPanel>
+					</p:dialog>
+
+				</h:form>
+
+
+				<!-- 
+				<h:form>
+					<h3>Add Employee</h3>
+					<div class="ui-fluid p-formgrid p-grid">
+						<div class="p-field p-col-12 p-md-6">
+							<p:outputLabel for="name" value="Name" />
+							<p:inputText id="name" />
+						</div>
+						<div class="p-field p-col-12 p-md-6">
+							<p:outputLabel for="salary" value="Salary" />
+							<p:inputText id="salary" />
+						</div>
+						<div class="p-field p-col-12 p-md-3">
+							<p:outputLabel for="project" value="Project" />
+							<p:selectOneMenu id="project">
+								<f:selectItem itemLabel="Select One Project" itemValue="#{null}"
+									noSelectionOption="true" />
+								<f:selectItem itemLabel="Option 1" itemValue="Option 1" />
+								<f:selectItem itemLabel="Option 2" itemValue="Option 2" />
+								<f:selectItem itemLabel="Option 3" itemValue="Option 3" />
+							</p:selectOneMenu>
+						</div>
+						<div class="p-field p-col-12 p-md-3">
+							<p:outputLabel for="sportgroup" value="sportgroup" />
+							<p:selectOneMenu id="sportgroup">
+								<f:selectItem itemLabel="Select One Sportgroup"
+									itemValue="#{null}" noSelectionOption="true" />
+								<f:selectItem itemLabel="Option 1" itemValue="Option 1" />
+								<f:selectItem itemLabel="Option 2" itemValue="Option 2" />
+								<f:selectItem itemLabel="Option 3" itemValue="Option 3" />
+							</p:selectOneMenu>
+						</div>
+						<div class="p-field p-col-12 p-md-3">
+							<p:outputLabel for="department" value="Department" />
+							<p:selectOneMenu id="department">
+								<f:selectItem itemLabel="Select One Department"
+									itemValue="#{null}" noSelectionOption="true" />
+								<f:selectItem itemLabel="Option 1" itemValue="Option 1" />
+								<f:selectItem itemLabel="Option 2" itemValue="Option 2" />
+								<f:selectItem itemLabel="Option 3" itemValue="Option 3" />
+							</p:selectOneMenu>
+						</div>
+					</div>
+				</h:form>
+				-->
+
+			</div>
+
+			<!-- bottom right side -->
+			<div class="ui-g-12"></div>
+		</div>
+	</div>
+
+
+
+</body>
+</html>

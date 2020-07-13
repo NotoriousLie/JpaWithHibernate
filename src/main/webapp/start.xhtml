@@ -10,9 +10,9 @@
 		library="primefaces" />
 	<style type="text/css">
 .ui-g div {
-	background-color: #ffffff;
+	background-color: #ededed;
 	text-align: left;
-	border: 1px solid #ffffff;
+	border: 1px solid #fafafa;
 }
 </style>
 </h:head>
@@ -20,20 +20,21 @@
 
 <h:body>
 
-	<!--  -->
+	<!-- whole window -->
 	<div class="ui-g">
 
+		<!-- left side window -->
 		<div class="ui-g-12 ui-md-2">
-			<!-- left side window -->
 			<!-- Menu -->
 			<h:form>
 				<p:growl id="messages" showDetail="false" />
 
 				<p:menu toggleable="true">
 					<p:submenu label="Start" />
-					<p:submenu label="Employees" >
-						<p:menuitem value=" Add Employee"  url="http://localhost:8080/test.xhtml"
-							update="messages"/>
+					<p:submenu label="Employees">
+						<p:menuitem value=" Add Employee"
+							url="http://localhost:8080/employee/employeePage.xhtml"
+							update="messages" />
 						<p:menuitem value=" Delete Employee" action="#{menuView.delete}"
 							update="messages" ajax="false" />
 						<p:menuitem value=" All Employees" action="#{menuView.update}"
@@ -76,9 +77,11 @@
 			</h:form>
 		</div>
 
-		<div class="ui-g-12 ui-md-10">
-			<!-- right side window -->
-			<div class="ui-g-12 ui-md-4" style="margin-right: auto">asd</div>
+		<!-- right side window -->
+		<div class="ui-g-12 ui-md-10 ui-g-nopad">
+			<div class="ui-g-12">asd1</div>
+			<div class="ui-g-12">asd</div>
+			<div class="ui-g-12">asd</div>
 		</div>
 	</div>
 

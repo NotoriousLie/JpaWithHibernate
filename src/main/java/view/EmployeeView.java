@@ -1,5 +1,6 @@
 package view;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -7,44 +8,43 @@ import java.util.Set;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+
+import org.primefaces.event.SelectEvent;
+import org.primefaces.event.UnselectEvent;
 
 import employeeTutorial.Department;
 import employeeTutorial.Employee;
 import employeeTutorial.Project;
 import employeeTutorial.Sport;
 import employeeTutorial.SportGroup;
-import model.Message;
 import service.EmployeeService;
-import service.MessageService;
 
 @Named
-@RequestScoped
-public class Bean {
+@ViewScoped
+public class EmployeeView implements Serializable {
 
-	private Message message = new Message();
-	
-	private List<Message> messages;
-
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Employee employee = new Employee();
-	
 	private List<Employee> employees;
 
-	@Inject
-	private MessageService messageService;
-	
 	@Inject
 	private EmployeeService employeeService;
 
 	@PostConstruct
 	public void init() {
-		messages = messageService.list();
-		
+
 		employees = new ArrayList<Employee>();
 		Department departmentOne = new Department("Department 1");
 		Department departmentTwo = new Department("Department 2");
-		
+
 		Set<SportGroup> sportGroup = new HashSet<SportGroup>();
 		SportGroup sportgr = new SportGroup();
 		Sport sport = new Sport("football");
@@ -52,7 +52,7 @@ public class Bean {
 		sportgr.setName("Koelle");
 		sportgr.setSport(sport);
 		sportGroup.add(sportgr);
-		
+
 		Set<Project> projectsOne = new HashSet<Project>();
 		Set<Project> projectsTwo = new HashSet<Project>();
 		Project tollesProject = new Project();
@@ -62,34 +62,20 @@ public class Bean {
 		projectsOne.add(tollesProject);
 		projectsOne.add(kackProject);
 		projectsTwo.add(tollesProject);
-		
+
 		Employee empDieter = new Employee("Dieter", departmentOne, sportGroup, projectsOne);
 		Employee empHans = new Employee("Hans", departmentTwo, sportGroup, projectsTwo);
-		
+
 		empDieter.setId(5L);
 		empHans.setId(6L);
 
 		employees.add(empDieter);
 		employees.add(empHans);
 	}
-	
+
 	public void addEmployee() {
 		employeeService.addEmployeeToDb(employee);
 		employee = new Employee();
-	}
-
-	public void submit() {
-		messageService.create(message);
-		messages.add(message);
-		message = new Message();
-	}
-
-	public Message getMessage() {
-		return message;
-	}
-
-	public List<Message> getMessages() {
-		return messages;
 	}
 
 	public Employee getEmployee() {
@@ -101,34 +87,17 @@ public class Bean {
 	}
 
 	public List<Employee> getEmployees() {
-		return employees;
+		return this.employees;
 	}
 
-	public void setEmployees(List<Employee> employees) {
-		this.employees = employees;
+	public void onRowSelect(SelectEvent<Employee> event) {
+		FacesMessage msg = new FacesMessage("Employee Selected", event.getObject().getId().toString());
+		FacesContext.getCurrentInstance().addMessage(null, msg);
 	}
 
-	public MessageService getMessageService() {
-		return messageService;
+	public void onRowUnselect(UnselectEvent<Employee> event) {
+		FacesMessage msg = new FacesMessage("Employee Unselected", event.getObject().getId().toString());
+		FacesContext.getCurrentInstance().addMessage(null, msg);
 	}
 
-	public void setMessageService(MessageService messageService) {
-		this.messageService = messageService;
-	}
-
-	public EmployeeService getEmployeeService() {
-		return employeeService;
-	}
-
-	public void setEmployeeService(EmployeeService employeeService) {
-		this.employeeService = employeeService;
-	}
-
-	public void setMessage(Message message) {
-		this.message = message;
-	}
-
-	public void setMessages(List<Message> messages) {
-		this.messages = messages;
-	}
 }
